@@ -1,0 +1,19 @@
+# Lazy.nvim lockfile (keep this)
+lazy-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temp
+tmp/
+temp/
