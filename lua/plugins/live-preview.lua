@@ -3,10 +3,11 @@ return {
     "brianhuster/live-preview.nvim",
     config = function()
       require("live-preview").setup({
-        port = 8080,
-        browser = "firefox", -- or "chromium", "brave"
+        default_options = {
+          -- preview = {},
+          -- vim.fn.executable("live-preview") == 1,
+        }
       })
-    end
-  }
+    end,
+  },
 }
-
