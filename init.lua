@@ -36,4 +36,5 @@ require('lazy').setup {
   require 'plugins.harpoon',
   require 'plugins.vault',
   require 'plugins.neotree',
+  require 'plugins.discord',
 }
