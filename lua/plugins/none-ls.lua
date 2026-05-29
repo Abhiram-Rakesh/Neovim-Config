@@ -17,7 +17,7 @@ return {
         'eslint_d',
         'shfmt',
         'checkmake',
-        'gofmt',
+        'golangci-lint',
         'goimports',
         'hadolint',
         'cfn-lint',
@@ -43,7 +43,11 @@ return {
 
     local sources = {
       diagnostics.checkmake,
-      diagnostics.golangci_lint,
+      diagnostics.golangci_lint.with {
+        condition = function(utils)
+          return utils.root_has_file { 'go.mod' }
+        end,
+      },
       diagnostics.hadolint,
       diagnostics.cfn_lint,
       -- Prettier for many web filetypes (including react .jsx/.tsx)
@@ -55,7 +59,6 @@ return {
       formatting.stylua,
       formatting.shfmt.with { args = { '-i', '4' } },
       formatting.terraform_fmt,
-      formatting.gofmt,
       formatting.goimports,
       -- ruff / ruff_format if you use Python
       require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },

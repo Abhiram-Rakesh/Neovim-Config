@@ -1,3 +1,6 @@
+-- Ensure ~/go/bin is in PATH for Go tools (golangci-lint, goimports, etc.)
+vim.env.PATH = vim.env.HOME .. '/go/bin:' .. vim.env.PATH
+
 require 'core.options' -- Load general options
 require 'core.keymaps' -- Load general keymaps
 require 'core.snippets' -- Custom code snippets
