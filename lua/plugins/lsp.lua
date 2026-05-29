@@ -178,7 +178,7 @@ return {
     })
 
     -- Ensure mason-tool-installer attempts installation
-    local ensure_installed = { 'ruff', 'pylsp', 'gopls', 'docker_language_server', 'terraformls', 'yamlls', 'jsonls', 'bashls', 'ansiblels', 'helm_ls', 'lua_ls', 'stylua', 'hadolint' }
+    local ensure_installed = { 'ruff', 'pylsp', 'gopls', 'docker_language_server', 'terraformls', 'yamlls', 'jsonls', 'bashls', 'ansiblels', 'helm_ls', 'lua_ls', 'stylua', 'hadolint', 'delve', 'gomodifytags', 'impl' }
     if pcall(require, 'mason-tool-installer') then
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
     end
