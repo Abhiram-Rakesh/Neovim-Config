@@ -62,11 +62,6 @@ return {
       },
     })
 
-    -- dockerls (Docker)
-    vim.lsp.config('dockerls', {
-      capabilities = capabilities,
-    })
-
     -- terraformls (Terraform)
     vim.lsp.config('terraformls', {
       capabilities = capabilities,

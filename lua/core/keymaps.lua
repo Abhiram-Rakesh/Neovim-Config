@@ -177,7 +177,7 @@ local function cloud_menu()
 
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-  vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+  vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
 
   local width = 80
   local height = #lines
@@ -195,7 +195,7 @@ local function cloud_menu()
   }
 
   local win = vim.api.nvim_open_win(buf, true, opts)
-  vim.api.nvim_win_set_option(win, 'cursorline', true)
+  vim.api.nvim_set_option_value('cursorline', true, { win = win })
 
   vim.api.nvim_buf_create_user_command(buf, 'Quit', function()
     vim.api.nvim_win_close(win, true)
@@ -229,7 +229,7 @@ local function trivy_menu()
 
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-  vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+  vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
 
   local width = 70
   local height = #lines
@@ -247,7 +247,7 @@ local function trivy_menu()
   }
 
   local win = vim.api.nvim_open_win(buf, true, opts)
-  vim.api.nvim_win_set_option(win, 'cursorline', true)
+  vim.api.nvim_set_option_value('cursorline', true, { win = win })
 
   vim.keymap.set('n', '<CR>', function()
     local cursor = vim.api.nvim_win_get_cursor(win)[1]
