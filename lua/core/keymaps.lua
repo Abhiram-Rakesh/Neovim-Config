@@ -87,9 +87,6 @@ vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', opts) -- fuzzy se
 vim.keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>', opts) -- search text in files (needs ripgrep)
 vim.keymap.set('n', '<leader>fb', ':Telescope buffers<CR>', opts) -- list open buffers
 vim.keymap.set('n', '<leader>fh', ':Telescope help_tags<CR>', opts) -- Search Neovim's documentation
--- Live Preview
-vim.keymap.set('n', '<leader>lp', ':LivePreview start<CR>', opts) -- starts a live preview of the current buffer
-vim.keymap.set('n', '<leader>lx', ':LivePreview stop<CR>', opts) -- stops a live preview of the current buffer
 -- Code Surfing Keymaps
 vim.keymap.set('n', '<leader>;', '$a;<Esc>', opts) -- jumps to the end of the line and adds a ";"
 vim.keymap.set('n', '<leader>,', '$a,<Esc>', opts) -- jumps to the end of the line and adds a ","
