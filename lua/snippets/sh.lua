@@ -11,32 +11,32 @@ ls.add_snippets('sh', {
 set -euo pipefail
 IFS=$'\n\t'
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${{BASH_SOURCE[0]}}")" && pwd)"
 
 {}
 ]=], { i(1) })),
 
   -- Logging helpers
   s('sh-log', fmt([=[
-log()   { echo "[$(date '+%Y-%m-%d %H:%M:%S')] INFO  $*"; }
-warn()  { echo "[$(date '+%Y-%m-%d %H:%M:%S')] WARN  $*" >&2; }
-error() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR $*" >&2; exit 1; }
+log()   {{ echo "[$(date '+%Y-%m-%d %H:%M:%S')] INFO  $*"; }}
+warn()  {{ echo "[$(date '+%Y-%m-%d %H:%M:%S')] WARN  $*" >&2; }}
+error() {{ echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR $*" >&2; exit 1; }}
 ]=], {})),
 
   -- Check required tools
   s('sh-require', fmt([=[
-require() {
+require() {{
   for cmd in "$@"; do
     command -v "$cmd" &>/dev/null || error "Required tool not found: $cmd"
   done
-}
+}}
 
 require {}
 ]=], { i(1, 'kubectl terraform aws') })),
 
   -- Usage/help function
   s('sh-usage', fmt([=[
-usage() {
+usage() {{
   cat <<EOF
 Usage: $(basename "$0") [OPTIONS]
 
@@ -46,9 +46,9 @@ Options:
   -h, --help    Show this help
   {}
 EOF
-}
+}}
 
-[[ "${1:-}" == "-h" || "${1:-}" == "--help" ]] && usage && exit 0
+[[ "${{1:-}}" == "-h" || "${{1:-}}" == "--help" ]] && usage && exit 0
 ]=], { i(1, 'Description of this script.'), i(2) })),
 
   -- Argument parsing
@@ -72,21 +72,21 @@ done
 
   -- Retry function
   s('sh-retry', fmt([=[
-retry() {
+retry() {{
   local retries={} delay={} cmd=("$@")
   for ((n=1; n<=retries; n++)); do
-    "${cmd[@]}" && return 0
-    [[ $n -lt $retries ]] && warn "Attempt $n/$retries failed, retrying in ${delay}s..." && sleep "$delay"
+    "${{cmd[@]}}" && return 0
+    [[ $n -lt $retries ]] && warn "Attempt $n/$retries failed, retrying in ${{delay}}s..." && sleep "$delay"
   done
-  error "Command failed after $retries attempts: ${cmd[*]}"
-}
+  error "Command failed after $retries attempts: ${{cmd[*]}}"
+}}
 ]=], { i(1, '3'), i(2, '5') })),
 
   -- Cleanup trap
   s('sh-trap', fmt([=[
-cleanup() {
+cleanup() {{
   {}
-}
+}}
 trap cleanup EXIT INT TERM
 ]=], { i(1, 'echo "Cleaning up..."') })),
 
@@ -101,12 +101,12 @@ fi
 
   -- for loop over array
   s('forin', fmt([=[
-for {} in "${{}[@]}"; do
+for {} in "${{{}[@]}}"; do
   {}
 done
 ]=], { i(1, 'item'), i(2, 'items'), i(3) })),
 
-  -- while read loop (process file/stdin line by line)
+  -- while read loop
   s('whileread', fmt([=[
 while IFS= read -r {}; do
   {}
@@ -115,16 +115,16 @@ done < {}
 
   -- Check if var is set
   s('sh-checkvar', fmt([=[
-: "${{}:?'Variable {} must be set'}"
+: "${{{}:?'Variable {} must be set'}}"
 ]=], { i(1, 'MY_VAR'), i(2, 'MY_VAR') })),
 
   -- Kubernetes helpers
   s('sh-k8s-wait', fmt([=[
-wait_for_rollout() {
-  local deployment="$1" namespace="${2:-default}"
+wait_for_rollout() {{
+  local deployment="$1" namespace="${{2:-default}}"
   log "Waiting for rollout of $deployment in $namespace..."
   kubectl rollout status deployment/"$deployment" -n "$namespace" --timeout={}
-}
+}}
 ]=], { i(1, '5m') })),
 
   -- AWS helpers
@@ -136,19 +136,19 @@ aws sts get-caller-identity &>/dev/null || error "AWS credentials not configured
 
   -- Terraform helpers
   s('sh-tf-deploy', fmt([=[
-tf_deploy() {
-  local env="$1" dir="${2:-.}"
+tf_deploy() {{
+  local env="$1" dir="${{2:-.}}"
   log "Deploying Terraform for env: $env"
   terraform -chdir="$dir" init -reconfigure
   terraform -chdir="$dir" plan -var-file="envs/$env.tfvars" -out=tfplan
   terraform -chdir="$dir" apply -auto-approve tfplan
-}
+}}
 ]=], {})),
 
   -- Docker helpers
   s('sh-docker-build', fmt([=[
 IMAGE={}
-TAG=${GITHUB_SHA:-$(git rev-parse --short HEAD)}
+TAG=${{GITHUB_SHA:-$(git rev-parse --short HEAD)}}
 
 docker build -t "$IMAGE:$TAG" -t "$IMAGE:latest" .
 docker push "$IMAGE:$TAG"
