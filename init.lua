@@ -31,13 +31,11 @@ require('lazy').setup {
   require 'plugins.indent-blankline',
   require 'plugins.misc',
   require 'plugins.comment',
-  require 'plugins.live-preview',
   require 'plugins.toggleterm',
   require 'plugins.trouble',
   require 'plugins.schemastore',
   require 'plugins.terraform',
   require 'plugins.harpoon',
-  require 'plugins.vault',
   require 'plugins.neotree',
   require 'plugins.discord',
 }
